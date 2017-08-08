@@ -1,0 +1,231 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dbAdminUser": {
+            "type": "string",
+            "defaultValue": "demo",
+            "metadata": {
+                "description": "The administrator login for the created SQL Server."
+            }
+        },
+        "dbAdminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The SQL Server's administrator password."
+            }
+        },
+        "environment": {
+            "type": "string",
+            "allowedValues": [
+                "dev",
+                "stg",
+                "prod"
+            ],
+            "defaultValue": "dev",
+            "metadata": {
+                "description": "The environment you want to deploy."
+            }
+        },
+        "databaseEdition": {
+            "type": "string",
+            "allowedValues": [
+                "Basic",
+                "Standard",
+                "Premium"
+            ],
+            "defaultValue": "Standard",
+            "metadata": {
+                "description": "The database edition"
+            }
+        }
+    },
+    "variables": {
+        "namePrefix": "wwi",
+        "sqlServerName": "[concat(variables('namePrefix'), 'sql', parameters('environment'), uniqueString(resourceGroup().id))]",
+        "sqlDbName": "[concat('sql', parameters('environment'), 'erp01')]",
+        "webFarmName": "[concat(variables('namePrefix'), 'webfarm', parameters('environment'), uniqueString(resourceGroup().id))]",
+        "webAppName": "[concat(variables('namePrefix'), 'web', parameters('environment'), uniqueString(resourceGroup().id))]",
+        "webAppSlotName": "staging2",
+        "appInsightsName": "[concat(variables('namePrefix'), 'ai', parameters('environment'), uniqueString(resourceGroup().id))]",
+        "location": "[resourceGroup().location]",
+        "webDeployUser": "publisher"
+    },
+    "resources": [
+        {
+            "name": "[variables('sqlServerName')]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2014-04-01",
+            "location": "[variables('location')]",
+            "tags": {
+                "Project": "Intelligent Apps Workshop",
+                "Tier": "Database",
+                "Environment": "[parameters('environment')]"
+            },
+            "properties": {
+                "administratorLogin": "[parameters('dbAdminUser')]",
+                "administratorLoginPassword": "[parameters('dbAdminPassword')]"
+            },
+            "resources": [
+                {
+                    "name": "AllowAllIps",
+                    "type": "firewallRules",
+                    "apiVersion": "2014-04-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', variables('sqlServerName'))]"
+                    ],
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "255.255.255.255"
+                    }
+                },
+                {
+                    "name": "[variables('sqlDbName')]",
+                    "type": "databases",
+                    "apiVersion": "2014-04-01",
+                    "location": "[variables('location')]",
+                    "dependsOn": [
+                        "[variables('sqlServerName')]"
+                    ],
+                    "tags": {
+                        "Project": "Intelligent Apps Workshop",
+                        "Tier": "Database",
+                        "Environment": "[parameters('environment')]"
+                    },
+                    "properties": {
+                        "edition": "[parameters('databaseEdition')]"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[variables('webFarmName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "location": "[variables('location')]",
+            "tags": {
+                "Project": "Intelligent Apps Workshop",
+                "Tier": "Web",
+                "Environment": "[parameters('environment')]"
+            },
+            "properties": {
+                "name": "[variables('webFarmName')]"
+            },
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            }
+        },
+        {
+            "name": "[variables('appInsightsName')]",
+            "type": "microsoft.insights/components",
+            "apiVersion": "2015-05-01",
+            "location": "[variables('location')]",
+            "tags": {
+                "Project": "Intelligent Apps Workshop",
+                "Tier": "Web",
+                "Environment": "[parameters('environment')]"
+            },
+            "properties": {
+                "Application_Type": "web"
+            }
+        },
+        {
+            "name": "[variables('webAppName')]",
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "location": "[variables('location')]",
+            "tags": {
+                "Project": "Intelligent Apps Workshop",
+                "Tier": "Web",
+                "Environment": "[parameters('environment')]"
+            },
+            "dependsOn": [
+                "[variables('appInsightsName')]"
+            ],
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('webFarmName'))]",
+                "siteConfig": {
+                    "defaultDocuments": [
+                        "default.html"
+                    ],
+                    "netFrameworkVersion": "v4.6",
+                    "publishingUsername": "[variables('webDeployUser')]",
+                    "connectionStrings": [
+                        {
+                            "name": "DB",
+                            "connectionString": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
+                            "type": "SQLAzure"
+                        }
+                    ],
+                    "appSettings": [
+                        {
+                            "name": "appInsightsInstrumentationKey",
+                            "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                        }
+                    ],
+                    "use32BitWorkerProcess": false,
+                    "webSocketsEnabled": true,
+                    "alwaysOn": true,
+                    "cors": {
+                        "allowedOrigins": [
+                            "*"
+                        ]
+                    }
+                }
+            },
+            "resources": [
+                {
+                    "name": "[variables('webAppSlotName')]",
+                    "type": "slots",
+                    "apiVersion": "2016-08-01",
+                    "location": "[variables('location')]",
+                    "tags": {
+                        "Project": "Intelligent Apps Workshop",
+                        "Tier": "Web",
+                        "Environment": "[parameters('environment')]"
+                    },
+                    "dependsOn": [
+                        "[variables('appInsightsName')]",
+                        "[variables('webAppName')]"
+                    ],
+                    "properties": {
+                        "siteConfig": {
+                            "defaultDocuments": [
+                                "default.html"
+                            ],
+                            "netFrameworkVersion": "v4.6",
+                            "publishingUsername": "[variables('webDeployUser')]",
+                            "connectionStrings": [
+                                {
+                                    "name": "DB",
+                                    "connectionString": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
+                                    "type": "SQLAzure"
+                                }
+                            ],
+                            "appSettings": [
+                                {
+                                    "name": "appInsightsInstrumentationKey",
+                                    "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                                }
+                            ],
+                            "use32BitWorkerProcess": false,
+                            "webSocketsEnabled": true,
+                            "alwaysOn": true,
+                            "cors": {
+                                "allowedOrigins": [
+                                    "*"
+                                ]
+                            }
+                        }
+                    },
+                    "resources": []
+                }
+            ]
+        }
+    ],
+    "outputs": {}
+}
