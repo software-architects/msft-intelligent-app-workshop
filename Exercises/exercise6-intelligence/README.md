@@ -17,3 +17,23 @@ will be provided. A step-by-step description of the following demos will be crea
 * Consume cognitive services in .NET
 * Consume cognitive services in Java
 Additionally, a collection of links to tutorials about Machine Learning in Azure will be added. Presenters who want to focus specifically on ML can make use of these resources.
+
+
+## Sample
+### Scenario
+* Analyze Support cases
+  * Sentiment analysis
+  * Language recognition
+  * Image recognition / Text recognition
+* Choose the best support engineer based on
+  * Criticality (sentiment)
+  * Language
+  * Product group / Support plan
+
+### Steps
+* Create a Java application (Web job) 
+* Call Cognitive Service
+* https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-java-how-to-use-jms-api-amqp
+
+### Responsibility
+* Roman

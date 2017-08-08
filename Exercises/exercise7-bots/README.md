@@ -15,3 +15,17 @@ This block contains presentations and demos/hands-on exercises. Slides about
 will be provided. A step-by-step description of the following demos will be created:
 * Build a simple bot with Microsoft Bot Framework
 Note that this block concludes day 2 of the workshop. Therefore, it contains a bit less material and content in order to have enough time for closing Q&A, discussions, etc.
+
+## Sample
+### Scenario
+* Create an order bot
+* Ask the bot "Order an action jacket" -> more than one result
+* Ask for the size
+* Send a card for the chosen product
+* Order
+
+### Steps
+* Implement the bot locally (no deployment)
+
+### Responsibility
+* Roman

@@ -20,3 +20,20 @@ will be provided. A step-by-step description of the following demos for will be 
 * Azure Functions: Connect microservices using Service Bus
 * Azure Functions Proxies: Setup application gateway
 * Azure Logic Apps: Setup simple workflow related to functions previously created
+
+## Sample
+### Scenario
+* We want to refactor our existing order process logic because
+  * it's full of if statements to implement the business rules
+  * it contains supplier specific code mixed with core logic
+  * it is hard to test
+
+### Steps
+* Create a service bus queue for new order messages (use topics)
+* Create an Azure function for ordering from supplier
+* Create a Logic App for handling a price change workflow (supplier calls our Logic App to notify about a price change, manual approval process)
+* Create an API proxy to get a common interface for Function and Logic App services
+
+### Responsibility
+* 
+* Logic App: Roman

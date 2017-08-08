@@ -19,3 +19,13 @@ will be provided. A step-by-step description of the following demos will be crea
 * AI portal: View telemetry and logs of previously deployed services
 * AI Analytics: Find answers to specific questions
 * AI Maps
+
+## Sample
+### Scenario
+* We need a common monitoring solution to see the health over all of our services and components.
+* We want to use telemetry to know our users and their usage
+
+### Steps
+
+
+### Responsibility

@@ -21,3 +21,18 @@ will be provided. A step-by-step description of the following demos will be crea
 * Azure SQL: Sharding with Azure SQL Elastic DB Pools
 * Azure SQL: Redgate DB tools in VS Enterprise
 * CosmosDB: Document-oriented storage with DocumentDB API
+
+
+## Sample
+### Scenario
+* Feature request: Manage support cases
+* We want to create a new Microservice
+* Independent Storage, decision: NoSQL 
+
+### Steps
+* Create a .NET Core application
+* Access Cosmo DB
+* ASP.NET 4.7 Frontend (no SPA)
+
+### Responsibility
+

@@ -18,3 +18,11 @@ will be provided. A step-by-step description of the following demos will be crea
 * .NET: Package a .NET Core application in a Docker container and run it in Azure App Service
 * .NET: Package a .NET 4.6 application in a Windows container and run it on Windows Server 2016 in Azure
 * Visual Studio: Run and debug a dockerized .NET Core application
+
+## Sample
+### Scenario
+* Dockerize exercise 4
+
+### Steps
+
+### Responsibility
