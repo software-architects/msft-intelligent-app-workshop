@@ -46,7 +46,7 @@
         "sqlDbName": "[concat('sql', parameters('environment'), 'erp01')]",
         "webFarmName": "[concat(variables('namePrefix'), 'webfarm', parameters('environment'), uniqueString(resourceGroup().id))]",
         "webAppName": "[concat(variables('namePrefix'), 'web', parameters('environment'), uniqueString(resourceGroup().id))]",
-        "webAppSlotName": "staging2",
+        "webAppSlotName": "staging",
         "appInsightsName": "[concat(variables('namePrefix'), 'ai', parameters('environment'), uniqueString(resourceGroup().id))]",
         "location": "[resourceGroup().location]",
         "webDeployUser": "publisher"
@@ -144,7 +144,8 @@
                 "Environment": "[parameters('environment')]"
             },
             "dependsOn": [
-                "[variables('appInsightsName')]"
+                "[variables('appInsightsName')]",
+                "[variables('webFarmName')]"
             ],
             "properties": {
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('webFarmName'))]",
@@ -154,17 +155,14 @@
                     ],
                     "netFrameworkVersion": "v4.6",
                     "publishingUsername": "[variables('webDeployUser')]",
-                    "connectionStrings": [
-                        {
-                            "name": "DB",
-                            "connectionString": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
-                            "type": "SQLAzure"
-                        }
-                    ],
                     "appSettings": [
                         {
-                            "name": "appInsightsInstrumentationKey",
+                            "name": "ApplicationInsights:InstrumentationKey",
                             "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "ConnectionStrings:DB",
+                            "value": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
                         }
                     ],
                     "use32BitWorkerProcess": false,
@@ -199,17 +197,14 @@
                             ],
                             "netFrameworkVersion": "v4.6",
                             "publishingUsername": "[variables('webDeployUser')]",
-                            "connectionStrings": [
-                                {
-                                    "name": "DB",
-                                    "connectionString": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
-                                    "type": "SQLAzure"
-                                }
-                            ],
                             "appSettings": [
                                 {
-                                    "name": "appInsightsInstrumentationKey",
+                                    "name": "ApplicationInsights:InstrumentationKey",
                                     "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                                },
+                                {
+                                    "name": "ConnectionStrings:DB",
+                                    "value": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
                                 }
                             ],
                             "use32BitWorkerProcess": false,

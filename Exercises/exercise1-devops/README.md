@@ -278,7 +278,8 @@ In this lab, we are going to automate resource management with [*Azure Resource 
         "Environment": "[parameters('environment')]"
     },
     "dependsOn": [
-        "[variables('appInsightsName')]"
+        "[variables('appInsightsName')]",
+        "[variables('webFarmName')]"
     ],
     "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('webFarmName'))]",
@@ -288,17 +289,14 @@ In this lab, we are going to automate resource management with [*Azure Resource 
             ],
             "netFrameworkVersion": "v4.6",
             "publishingUsername": "[variables('webDeployUser')]",
-            "connectionStrings": [
-                {
-                    "name": "DB",
-                    "connectionString": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
-                    "type": "SQLAzure"
-                }
-            ],
             "appSettings": [
                 {
-                    "name": "appInsightsInstrumentationKey",
+                    "name": "ApplicationInsights:InstrumentationKey",
                     "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                },
+                {
+                    "name": "ConnectionStrings:DB",
+                    "value": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
                 }
             ],
             "use32BitWorkerProcess": false,
@@ -333,17 +331,14 @@ In this lab, we are going to automate resource management with [*Azure Resource 
                     ],
                     "netFrameworkVersion": "v4.6",
                     "publishingUsername": "[variables('webDeployUser')]",
-                    "connectionStrings": [
-                        {
-                            "name": "DB",
-                            "connectionString": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
-                            "type": "SQLAzure"
-                        }
-                    ],
                     "appSettings": [
                         {
-                            "name": "appInsightsInstrumentationKey",
+                            "name": "ApplicationInsights:InstrumentationKey",
                             "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "ConnectionStrings:DB",
+                            "value": "[concat('Server=tcp:', variables('sqlServerName'),'.database.windows.net,1433;Initial Catalog=', variables('sqlDbName'), ';Persist Security Info=False;User ID=', parameters('dbAdminUser'), ';Password=', parameters('dbAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
                         }
                     ],
                     "use32BitWorkerProcess": false,
@@ -383,11 +378,11 @@ Try {
   }
 }
 
-# Select subscription where name contains `MSDN`
-Get-AzureRmSubscription | where { $_.SubscriptionName -like "*MSDN*" } | Select-AzureRmSubscription
+# Select subscription where name contains `MSDN Subscription`
+Get-AzureRmSubscription | where { $_.SubscriptionName -like "*MSDN Subscription*" } | Select-AzureRmSubscription
 
 # Set some string constants
-$rg = "intel-app-workshop3"
+$rg = "intel-app-workshop2"
 $location = "westeurope"
 $dep = "Deployment-" + [guid]::NewGuid()
 $path = "C:\Code\GitHub\msft-intelligent-app-workshop\Exercises\exercise1-devops\"
