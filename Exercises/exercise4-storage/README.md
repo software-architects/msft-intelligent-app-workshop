@@ -35,4 +35,4 @@ will be provided. A step-by-step description of the following demos will be crea
 * ASP.NET 4.7 Frontend (no SPA)
 
 ### Responsibility
-
+* Rainer
