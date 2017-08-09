@@ -36,7 +36,33 @@ Create a new tenant for subsidiary, testing, etc.
 * Rainer
 
 
-# Lab
+# Lab 1 - Infrastructure is Code
+
+## Introduction
+
+[Wide World Importers (WWI)](https://docs.microsoft.com/en-us/sql/sample/world-wide-importers/overview) is a (fictitious) wholesale novelty goods importer and distributor operating from the San Francisco bay area.
+
+As a wholesaler, WWI’s customers are mostly companies who resell to individuals. WWI sells to retail customers across Europe including specialty stores, supermarkets, computing stores, tourist attraction shops, and some individuals. WWI also sells to other wholesalers via a network of agents who promote the products on WWI’s behalf. While all of WWI’s customers are currently based in Europe, the company is intending to push for expansion into other parts of the world.
+
+Currently, WWI is running its ERP system in their own computer room. Some years ago, WWI has switched to VMs on various Hyper-V servers for running their ERP system. The servers and the installed software are manually maintained by WWI's administrators. They use remote desktop to connect to the servers, install OS patches, install patches for the ERP system, etc. A recent survey unveiled the following problems of this strategy:
+
+1. Business departments complain that implementing and deploying urgent new features in the ERP system takes too long.
+1. It often takes quite long to fix bugs because finding the root cause is difficult (e.g. is it an infrastructure or code problem?).
+1. Testers would need test environments more frequently and faster. IT administrators cannot cope with the number of requests for new test environments.
+1. WWI's IT cannot provide SLAs (availability and performance) necessary for a company that has grown to the size that WWI is today.
+1. Rolling out the ERP system to many new countries seems impossible with WWI's current IT strategy.
+
+> Discuss what WWI should change in terms of IT organization and DevOps.
+
+## Conclusions
+
+* WWI wants to use *Azure* to free resources allocated by running the local server infrastructure.
+* WWI wants to use *PaaS* as much as possible to eliminate effort necessary for running an maintaining base components (e.g. OS, DB, etc.)
+* Automation culture:
+  * WWI wants to automate administrative IT tasks to make them repeatable and reduce human errors.
+  * Developers of WWI want to automate the build, test, and deploy steps to make them repeatable and reduce human errors.
+
+## Infrastructure is Code
 
 In this lab, we are going to automate resource management with [*Azure Resource Manager* templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#template-deployment). In order to do this lab, you need the following prerequisites:
 
@@ -49,7 +75,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 > Note to presenters: If you have limited time, skip building the ARM Template step-by-step. Open the [ready-made template](erp.json) and just do a code walkthrough.
 
 
-## Create Basic Structure of ARM Template
+### Create Basic Structure of ARM Template
 
 * Create an empty folder in which you can store all the files of this lab.
 * Open the folder in *Visual Studio Code*
@@ -70,7 +96,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 * Read more about the [format of *ARM Templates*...](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates#template-format)
 
 
-## Create Parameters
+### Create Parameters
 
 * Add the following parameters to the `parameters` section. These parameter help to keep your template reusable:
 
@@ -122,7 +148,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 > Note to presenters: Speak about the importance of parameters for interactive deployments. Use e.g. the *Deploy to Azure* button in e.g. an [Azure Quickstart template](https://github.com/Azure/azure-quickstart-templates/tree/master/201-web-app-blob-connection) to demonstrate the point.
 
 
-## Create Variables
+### Create Variables
 
 * As always in programming: Don't repeat yourself. Store values that are needed throughout your template in variables. Therefore, add the following code to the `variables` section:
 
@@ -146,7 +172,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 * Read more about [best practices for resource names...](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-template-best-practices#resource-names)
 
 
-## Creating *Azure SQL* Resources
+### Creating *Azure SQL* Resources
 
 * We are ready to create our first resources. Let's start with an *Azure SQL* server and database. Add the following code into the `resources` array of your template:
 
@@ -207,7 +233,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 > Note to presenters: Emphasize that ARM is not specifically for *IaaS* or *PaaS*. It can create *any* kind of resource available in Azure, independent of its IaaS- or PaaS-nature.
 
 
-## Creating *Application Insights* Resource
+### Creating *Application Insights* Resource
 
 * Next, we want to add an *Application Insights* resource. Add the following code into the `resources` array of your template:
 
@@ -231,7 +257,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 * Read more about [*Application Insights resources* in template...](https://docs.microsoft.com/en-us/azure/templates/microsoft.insights/components)
 
 
-## Creating *App Service* Resources
+### Creating *App Service* Resources
 
 * We want to deploy a web app. For that, we need an *App Service Plan*. Add the following code into the `resources` array of your template:
 
@@ -262,7 +288,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 * Read more about [*Serverfarm* resources in template...](https://docs.microsoft.com/en-us/azure/templates/microsoft.web/serverfarms)
 
 
-## Creating *Web App* Resources
+### Creating *Web App* Resources
 
 * Now we have all we need to finally deploy the web app. Add the following code into the `resources` array of your template:
 
@@ -363,7 +389,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 > Note to presenters: Describe the concept of *Slots* in *App Service* and why it is important in a DevOps world.
 
 
-## Deploy Template with PowerShell
+### Deploy Template with PowerShell
 
 * Open *PowerShell ISE*
 * Add the following code to a script called `deploy.ps1`:
