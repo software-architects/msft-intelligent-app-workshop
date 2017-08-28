@@ -1,0 +1,30 @@
+GET https://wwiwebdevmflhjpyh6tmfk-staging.azurewebsites.net/api/orders HTTP/1.1
+Accept: application/json
+###
+POST https://wwiwebdevmflhjpyh6tmfk-staging.azurewebsites.net/api/orders HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "customer": "Foo Bar Ltd.",
+    "product": "Acme tool 3000",
+    "amount": 5,
+    "unitPrice": 42.42,
+    "totalAmount": 212.10
+}
+
+######
+GET http://wwiwebdevmflhjpyh6tmfk.azurewebsites.net/api/orders HTTP/1.1
+Accept: application/json
+###
+POST http://wwiwebdevmflhjpyh6tmfk.azurewebsites.net/api/orders HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "customer": "Foo Bar Ltd.",
+    "product": "Super Bike 5000",
+    "amount": 1,
+    "unitPrice": 1999.99,
+    "totalAmount": 1999.99
+}

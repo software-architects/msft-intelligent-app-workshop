@@ -40,7 +40,7 @@ Create a new tenant for subsidiary, testing, etc.
 
 ## Introduction
 
-[Wide World Importers (WWI)](https://docs.microsoft.com/en-us/sql/sample/world-wide-importers/overview) is a (fictitious) wholesale novelty goods importer and distributor operating from the San Francisco bay area.
+[World Wide Importers (WWI)](https://docs.microsoft.com/en-us/sql/sample/world-wide-importers/overview) is a (fictitious) wholesale novelty goods importer and distributor operating from the San Francisco bay area.
 
 As a wholesaler, WWI’s customers are mostly companies who resell to individuals. WWI sells to retail customers across Europe including specialty stores, supermarkets, computing stores, tourist attraction shops, and some individuals. WWI also sells to other wholesalers via a network of agents who promote the products on WWI’s behalf. While all of WWI’s customers are currently based in Europe, the company is intending to push for expansion into other parts of the world.
 
@@ -139,7 +139,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
             "description": "The database edition"
         }
     }
-},
+}
 ```
 
 * Read more about [*ARM Template Parameters*...](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates#parameters)
@@ -159,11 +159,11 @@ In this lab, we are going to automate resource management with [*Azure Resource 
     "sqlDbName": "[concat('sql', parameters('environment'), 'erp01')]",
     "webFarmName": "[concat(variables('namePrefix'), 'webfarm', parameters('environment'), uniqueString(resourceGroup().id))]",
     "webAppName": "[concat(variables('namePrefix'), 'web', parameters('environment'), uniqueString(resourceGroup().id))]",
-    "webAppSlotName": "staging2",
+    "webAppSlotName": "staging",
     "appInsightsName": "[concat(variables('namePrefix'), 'ai', parameters('environment'), uniqueString(resourceGroup().id))]",
     "location": "[resourceGroup().location]",
     "webDeployUser": "publisher"
-},
+}
 ```
 
 * Read more about [*ARM Template Variables*...](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates#variables)
@@ -225,7 +225,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 }
 ```
 
-* Note IntelliSense when using *Visual Studio Code* to edit your template file.
+* Note IntelliSense when using *Visual Studio Code* to edit your template file
 * Note the nesting of resource (e.g. *Firewall Rules* inside of `resources` of the *Azure SQL Server*)
 * Read more about [*SQL resources* in template...](https://docs.microsoft.com/en-us/azure/templates/microsoft.sql/servers)
 * Take a look at the [*ARM Schemas* in GitHub...](https://github.com/Azure/azure-resource-manager-schemas/tree/master/schemas/2014-04-01)
@@ -386,7 +386,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 * Note how we add application configuration for dependent resources (DB, Application Insights)
 * Read more about [*Web Site* resources in template...](https://docs.microsoft.com/en-us/azure/templates/microsoft.web/sites)
 
-> Note to presenters: Describe the concept of *Slots* in *App Service* and why it is important in a DevOps world.
+> Note to presenters: Describe the concept of [*Deploayment Slots* in *App Service*](https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-staged-publishing) and why it is important in a DevOps world.
 
 
 ### Deploy Template with PowerShell
@@ -437,4 +437,145 @@ New-AzureRmResourceGroupDeployment -ResourceGroupName $rg -TemplateFile "$path\e
 * Execute the script and watch how ARM creates your resources.
 * Read more about [Azure PowerShell...](https://docs.microsoft.com/en-us/powershell/azure/overview)
 
-> Note to presenters: Describe the importance of *KeyVault* as a secure location to store passwords.
+> Note to presenters: Describe the importance of [*KeyVault*](https://azure.microsoft.com/en-us/services/key-vault/) as a secure location to store passwords.
+
+
+# Lab 2 - Continuous Integration
+
+## Introduction
+
+In the past, WWI has used C# and the .NET Framework to develop its ERP system. A few years ago, the software development team at WWI installed a Microsoft *Team Foundation Server* for source code control. The build and release processes are not automated. Developers build new releases on their developer machines. Deployment is done manually by copying files to the web server.
+
+In a workshop, WWI's developers gathered the following major problems with their current workflow:
+
+1. Building and releasing new versions is very error-prone. Therefore, the development teams considers reducing the number of new release from one release per quarter to one release per year.
+1. Only two persons in the team know exactly what to do to deploy new versions. If they are sick, deploying new versions is very risky.
+1. TFS is quite outdated as nobody in the team finds the time to update TFS.
+1. Another development team responsible for WWI's website already uses Docker on Linux and is very happy with it. The .NET development team would like to try Docker, too. For that, they would have to use Linux instead of Windows.
+
+> Discuss what WWI should change in terms of build and release management.
+
+## Conclusions
+
+* Switch to *Visual Studio Team Services* to free resources from manual TFS maintenance.
+* Automate the build and release process.
+* Switch to .NET Core to enable running WWI's ERP system on Linux and Docker.
+
+
+## Continuous Integration and Deployment
+
+WWI is developing a custom ERP solution with *.NET Core 2.0*. Following best DevOps principles, WWI wants to continuously integrate (CI) and continuously deploy (CD) new versions. In this lab, we are going to setup the CI/CD process with [*Visual Studio Team Services*](https://www.visualstudio.com/team-services/) (VSTS).
+
+### Create Project in VSTS
+
+* If you don't have a VSTS account yet, open the [VSTS website](https://www.visualstudio.com/team-services/) and create an account.
+* Once you have an account, create a new project:
+
+![VSTS new project](images/create-vsts-project.png)
+
+
+### Create Build Definition
+
+* Create a new *build definition*:
+
+![VSTS new build definition](images/create-vsts-build-definition.png)
+
+* Select the *ASP.NET Core* template. It will do most of the work for us.
+
+![VSTS ASP.NET Core Template](images/aspnet-core-template.png)
+
+* You can use the GitHub repository for this workshop as the source for the build process. For this, switch to the *Get sources* section, select *Remote repo* and enter [https://github.com/software-architects/msft-intelligent-app-workshop.git](https://github.com/software-architects/msft-intelligent-app-workshop.git) as the *Server Url*:
+
+![Get Sources from GitHub](images/get-sources-from-github.png)
+
+* Set the build options as follows to make sure that the right projects from the GitHub repository are built.
+
+![Build options](images/build-process-options.png)
+
+* Last but not least we have to tweak the *Publish* step a little bit. We don't want VSTS to auto-detect the web projects. It would not recognize the web project in our sample as we are building a Web API without a *web.config* file and without *wwwroot* folder.
+
+![Publish step](images/build-publish-activity.png)
+
+> Note to presenters: Speak about *Triggers* that can be used to start scheduled builds or to trigger builds whenever code changes.
+
+* That's it. Try the build process by hitting the *Save & queue" button in the upper right corner of the screen. The build should successfully finish in a few minutes.
+
+> Note to presenters: Once the build has been started, show the participants how to monitor builds, view build results, browse build artifacts etc. Also speak about the possibility to associate checkins with work items and builds to enhance traceability.
+
+* As .NET Core is used, you can optionally switch to the *Hosted Linux* build agent and run the build process on Linux instead of Windows. The Web API will be built successfully on Linux, too. For that, you don't have to change anything on your build definition.
+
+> Note to presenters: Show switching to Linux only if you have enough time. In shorter workshops, just mention hosted build on Linux and maybe show the screenshot below to illustrate the point.
+
+![Build on Linux](images/build-on-linux.png)
+
+* Read more about [Continuous integration and deployment...](https://www.visualstudio.com/en-us/docs/build/overview)
+* Read more about the [available build and release tasks...](https://www.visualstudio.com/en-us/docs/build/define/build)
+
+
+### Create Release Definition
+
+* Next, we want to automate the deployment. For that, we have to link our VSTS project with our Azure subscription. This is done in the *Services* section of the options:
+
+![VSTS Services](images/vsts-options-services.png)
+
+* Create a new service for *Azure Resource Manager* and select **the Azure subscription that you used in Lab 1 (*Azure Resource Manager*)**:
+
+![Link VSTS and Azure Resource Manager](images/link-vsts-arm.png)
+
+> Note to presenters: Speak about how VSTS creates a *Service Principal* to access Azure.
+
+* Once VSTS and Azure are connected, switch to *VSTS Release Management*:
+
+![VSTS Release Management](images/vsts-release-management.png)
+
+* Create a new release definition. Use the *Azure App Service Deployment with Slot* as your template:
+
+![Release Management Template](images/release-template.png)
+
+* Change the release definition so that it...
+  * ...publishes our Web API to the staging slot.
+  * ...asks the product owner (=a VSTS user) for her approval. This gives here the possibility to do final tests before the release goes live.
+  * ...swaps staging and production slot.
+
+![Release Definition](images/release-process.png)
+
+* Save your definition and create a release.
+
+![Create Release](images/create-release.png)
+
+* You will receive an email regarding approval of the new release:
+
+![Approval email](images/release-management-intervention-email.png)
+
+* Before you approve the new release, you can test it e.g. with an interactive REST client. Here are two sample requests that you can try (note that you have to change the server names to the names for your deployment):
+
+```
+GET https://wwiwebdevmflhjpyh6tmfk-staging.azurewebsites.net/api/orders HTTP/1.1
+Accept: application/json
+
+###
+
+POST https://wwiwebdevmflhjpyh6tmfk-staging.azurewebsites.net/api/orders HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "customer": "Foo Bar Ltd.",
+    "product": "Acme tool 3000",
+    "amount": 5,
+    "unitPrice": 42.42,
+    "totalAmount": 212.10
+}
+```
+
+> Note to presenters: You can find the requests in the file [Erp/requests.http]. Use the [Visual Studio Code REST Client Plugin](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to execute them interactively.
+
+* Once you have successfully testes the new release in the staging area, you can approve the new release:
+
+![Approve the release](images/resume-new-release.png)
+
+* VSTS Release Management will swap the slots and the new version is live.
+
+* Read more about [Continuous integration and deployment...](https://www.visualstudio.com/en-us/docs/build/overview)
+* Read more about the [available build and release tasks...](https://www.visualstudio.com/en-us/docs/build/define/build)
+
