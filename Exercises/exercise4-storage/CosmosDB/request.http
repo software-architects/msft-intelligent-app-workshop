@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/ticket HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "customer": "Foo Bar",
+    "severity": "high",
+    "description": "Lorem ipsum..."
+}
+
+###
+GET http://localhost:8080/api/ticket/59a6a1d9dcde05027a9fa874 HTTP/1.1
+Accept: application/json
