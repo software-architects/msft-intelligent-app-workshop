@@ -1,41 +1,3 @@
-# Exercise 1: DevOps
-
-## Content
-
-The second part focuses on DevOps concepts:
-* Short recap: What is DevOps?
-* What are the consequences of DevOps on software companies (technology, organization, business model)?
-* Infrastructure is code
-* Microsoft’s DevOps offerings in VSTS
-
-
-## Material
-
-This block contains presentations and demos/hands-on labs. Slides about 
-* DevOps,
-* Infrastructure automation (Azure Resource Manager), and
-* VSTS
-will be provided. A step-by-step description of the following demos will be created:
-* Automate resource creation with ARM (ARM template, Azure CLI)
-* VSTS: Continuous integration with hosted build controller for a .NET Core web API (including unit tests tests)
-* VSTS: Continuous deployment of web API to Azure App Service (eventually including performance tests)
-
-## Sample
-### Scenario
-Create a new tenant for subsidiary, testing, etc.
-
-### Steps
-* ARM-Template 
-  * create a new SQL Server 
-  * import a small bakpac file
-  * create an App Service Plan
-  * create an API App
-  * create an Application Insights resource
-
-### Responsibility
-* Rainer
-
-
 # Lab 1 - Infrastructure is Code
 
 ## Introduction
@@ -202,6 +164,18 @@ In this lab, we are going to automate resource management with [*Azure Resource 
             "properties": {
                 "startIpAddress": "0.0.0.0",
                 "endIpAddress": "255.255.255.255"
+            }
+        },
+        {
+            "name": "AllowAzureInternalIPs",
+            "type": "firewallRules",
+            "apiVersion": "2014-04-01",
+            "dependsOn": [
+                "[concat('Microsoft.Sql/servers/', variables('sqlServerName'))]"
+            ],
+            "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "0.0.0.0"
             }
         },
         {
@@ -386,10 +360,12 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 * Note how we add application configuration for dependent resources (DB, Application Insights)
 * Read more about [*Web Site* resources in template...](https://docs.microsoft.com/en-us/azure/templates/microsoft.web/sites)
 
-> Note to presenters: Describe the concept of [*Deploayment Slots* in *App Service*](https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-staged-publishing) and why it is important in a DevOps world.
+> Note to presenters: Describe the concept of [*Deployment Slots* in *App Service*](https://docs.microsoft.com/en-us/azure/app-service-web/web-sites-staged-publishing) and why it is important in a DevOps world.
 
 
 ### Deploy Template with PowerShell
+
+**Note that running the script shown below will create resources in Azure which are subject to a charge. Don't forget to delete them when you no longer need them.**
 
 * Open *PowerShell ISE*
 * Add the following code to a script called `deploy.ps1`:
@@ -446,9 +422,13 @@ New-AzureRmResourceGroupDeployment -ResourceGroupName $rg -TemplateFile "$path\e
 
 In the past, WWI has used C# and the .NET Framework to develop its ERP system. A few years ago, the software development team at WWI installed a Microsoft *Team Foundation Server* for source code control. The build and release processes are not automated. Developers build new releases on their developer machines. Deployment is done manually by copying files to the web server.
 
+In the last year, WWI has increasingly been hiring external contractors for doing development work. They are typically not working on-site. They work at home or offices of partner companies. The externals access WWI's networking using a VPN connection. Through this VPN, they can access WWI's TFS.
+
 In a workshop, WWI's developers gathered the following major problems with their current workflow:
 
-1. Building and releasing new versions is very error-prone. Therefore, the development teams considers reducing the number of new release from one release per quarter to one release per year.
+1. Human mistakes led to quite a few problems with new releases. Building and releasing new versions is generally quite error-prone. Therefore, the development teams considers reducing the number of new release from one release per quarter to one release per year.
+1. External developers constantly complain about VPN problems. WWI's Cyber Security department wants to limit access permissions to the network and to WWI servers to the absolute minimum. Frequently, necessary permissions get taken away or questioned.
+1. Testing is a manual process at WWI. More testers would be urgently needed but HR budget is very limited.
 1. Only two persons in the team know exactly what to do to deploy new versions. If they are sick, deploying new versions is very risky.
 1. TFS is quite outdated as nobody in the team finds the time to update TFS.
 1. Another development team responsible for WWI's website already uses Docker on Linux and is very happy with it. The .NET development team would like to try Docker, too. For that, they would have to use Linux instead of Windows.
@@ -458,13 +438,18 @@ In a workshop, WWI's developers gathered the following major problems with their
 ## Conclusions
 
 * Switch to *Visual Studio Team Services* to free resources from manual TFS maintenance.
+* Use *Git* to better support distributed development work.
 * Automate the build and release process.
+* Add automated tests to reduce the necessary manual testing work.
 * Switch to .NET Core to enable running WWI's ERP system on Linux and Docker.
+
+> Note to presenters: Depending on the audience, you can do a quick recap about .NET Core and/or Git.
 
 
 ## Continuous Integration and Deployment
 
-WWI is developing a custom ERP solution with *.NET Core 2.0*. Following best DevOps principles, WWI wants to continuously integrate (CI) and continuously deploy (CD) new versions. In this lab, we are going to setup the CI/CD process with [*Visual Studio Team Services*](https://www.visualstudio.com/team-services/) (VSTS).
+WWI is developing a new ERP solution with *.NET Core 2.0*. Following best DevOps principles, WWI wants to continuously integrate (CI) and continuously deploy (CD) new versions. In this lab, we are going to setup the CI/CD process with [*Visual Studio Team Services*](https://www.visualstudio.com/team-services/) (VSTS).
+
 
 ### Create Project in VSTS
 
@@ -578,4 +563,3 @@ Accept: application/json
 
 * Read more about [Continuous integration and deployment...](https://www.visualstudio.com/en-us/docs/build/overview)
 * Read more about the [available build and release tasks...](https://www.visualstudio.com/en-us/docs/build/define/build)
-

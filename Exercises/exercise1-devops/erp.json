@@ -80,6 +80,18 @@
                     }
                 },
                 {
+                    "name": "AllowAzureInternalIPs",
+                    "type": "firewallRules",
+                    "apiVersion": "2014-04-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', variables('sqlServerName'))]"
+                    ],
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                },
+                {
                     "name": "[variables('sqlDbName')]",
                     "type": "databases",
                     "apiVersion": "2014-04-01",
