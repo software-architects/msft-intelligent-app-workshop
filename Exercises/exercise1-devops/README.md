@@ -365,7 +365,7 @@ In this lab, we are going to automate resource management with [*Azure Resource 
 
 ### Deploy Template with PowerShell
 
-**Note that running the script shown below will create resources in Azure which are subject to a charge. Don't forget to delete them when you no longer need them.**
+**Note that running the script shown below will create resources in Azure which are subject to a charge. Don't forget to delete them when you no longer need them. However, don't delete them too early as subsequent exercises in this training use the results of this lab.**
 
 * Open *PowerShell ISE*
 * Add the following code to a script called `deploy.ps1`:
