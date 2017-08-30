@@ -41,10 +41,12 @@ If the examples will be done as hands-on labs, participants have to provide the 
     * Azure SDK
     * ASP.NET Web Development
 * Latest version of *SQL Server Management Studio*
+* Latest version of *Node.js*
 * Administrative access to an [Azure](https://azure.microsoft.com/) subscription
 * Administrative access to a [Visual Studio Team Services](https://www.visualstudio.com/team-services/) subscription
 * *Hyper-V*
 * *Docker for Windows*
 * *Windows Container* support
+* *Ubuntu Bash* for Windows
 
 If you do not have access to Visual Studio and/or a Microsoft Azure account, you can activate an Azure trial which includes 200 $ of free credit. This will enable you to run a VM with Visual Studio in it. In that case you just need internet access and a remote desktop client on your laptop. For the labs about build- and test-automation, you need your own Visual Studio Team Services subscription (free edition available).

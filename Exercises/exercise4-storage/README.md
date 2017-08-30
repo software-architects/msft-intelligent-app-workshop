@@ -1,43 +1,3 @@
-# Exercise 4: Storage
-
-## Content
-
-This part focuses describes how intelligent apps benefit from “polyglot persistence” in terms of technology and business models:
-* Short recap: SQL vs. NoSQL
-* Multi-tenancy and storage
-* Different storage needs (e.g. OLTP, OLAP, archives)
-* Different storage architectures (e.g. Service Fabric’s approach, dedicated storage services)
-* Microsoft’s related offerings in Azure (e.g. CosmosDB, Azure SQL, OSS databases, Redis, Search)
-
-
-## Material
-
-This block contains presentations and demos/hands-on exercises. Slides about
-* storage types,
-* storage architectures,
-* storage pricing models, and
-* related Azure services (e.g. CosmosDB, Azure SQL, OSS databases, Redis, Search)
-will be provided. A step-by-step description of the following demos will be created:
-* Azure SQL: Sharding with Azure SQL Elastic DB Pools
-* Azure SQL: Redgate DB tools in VS Enterprise
-* CosmosDB: Document-oriented storage with DocumentDB API
-
-
-## Sample
-### Scenario
-* Feature request: Manage support cases
-* We want to create a new Microservice
-* Independent Storage, decision: NoSQL 
-
-### Steps
-* Create a .NET Core application
-* Access Cosmo DB
-* ASP.NET 4.7 Frontend (no SPA)
-
-### Responsibility
-* Rainer
-
-
 # Lab 1 - Elastic Database Pools
 
 ## Introduction
@@ -163,3 +123,158 @@ Note that ReadyRoll build and deploy can be integrated in your VSTS build and re
 Once you have installed this step, you can add it to your build and/or release definitions:
 
 ![ReadyRoll in VSTS Marketplace](images/ready-roll-from-marketplace.png)
+
+
+# Lab 3 - NoSQL with CosmosDB
+
+## Introduction
+
+WWI wants to create a new application which allows WWI's stores in various countries to issue trouble tickets (e.g. problems with products, complaints about WWI's internal shared services, etc.). Originally, WWI planned to add the trouble ticket management into its ERP system. As mentioned before, it is based on C# and the .NET Framework. It stores data in SQL DBs.
+
+Some developers argue against adding the new functionality. Their arguments are:
+
+1. The ERP system's code is huge and the documentation is poor. Extending the existing code base is difficult.
+1. The data model of the trouble ticket system will be complex. A normalized, relational model would consist of many dozens of tables.
+1. All developers with experience in .NET are busy with other projects. Only people in the web development team would have time. Their primary knowledge is JavaScript and Node.js.
+
+> Discuss how WWI should implement the new trouble ticketing system. Consider a Microservice approach.
+
+## Conclusions
+
+* The trouble ticket system will be implemented as an autonomous Microservice.
+* It will consist of a platform-independent Web API to support multiple clients (e.g. mobile, web).
+* The team building the trouble ticket Microservice is autonomous in their technology decision.
+  * In this lab, we assume that the service is written with TypeScript and Node.js.
+  * The service will run on Windows and Linux.
+  * The team decided to use MongoDB (=NoSQL) for storing data.
+
+## CosmosDB
+
+In this lab, we are going to setup a *CosmosDB* instance (=highly scalable and reliable NoSQL PaaS service) with MongoDB API. Next, we will connect a Node.js Web API with CosmosDB.
+
+> Note to presenters: If you have limited time, skip building the Node.js code step-by-step. Open the [ready-made program](CosmosDB) and just do a code walkthrough.
+
+
+* Open the *Azure Portal* and navigate to the *Resource Group* you created in exercise 1.
+
+* Start creating a new CosmosDB:
+
+![Create a new CosmosDB](images/cosmosdb-create.png)
+
+* Create the CosmosDB with the following options (note that you have to choose a unique ID):
+
+![Create a new CosmosDB](images/cosmosdb-create-options.png)
+
+* Once the CosmosDB has been created, copy the connection string. We will need it shortly:
+
+![CosmosDB connection string](images/cosmosdb-connection-string.png)
+
+* Create an empty folder for your Node.js application and open the folder in Visual Studio Code.
+
+* Open Visual Studio Code's terminal window.
+
+* Initialize the Node.js application with `npm init`. Hit enter multiple times to accept the defaults.
+
+* Install the Node.js packages necessary at runtime with `npm install restify restify-errors http-status-codes mongodb --save`
+
+* Install the Node.js packages necessary at build time with `npm install typescript ts-node @types/restify-errors @types/http-status-codes @types/mongodb @types/restify --save-dev`
+
+> Note to presenters: Emphasize that our code does not contain any library from CosmosDB. It is just using a MongoDB client library.
+
+* Create the config file for TypeScript `tsconfig.json` with the following content:
+
+```
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node"
+  }
+}
+```
+
+* Implement the Web API. Here is a sample implementation. Note that you **have to change the MongoDB connection string** to your connection string copied from the Azure portal previously.
+
+```
+import {CREATED} from 'http-status-codes';
+import * as mongodb from 'mongodb';
+import {createServer, plugins} from 'restify';
+import {BadRequestError, NotFoundError} from 'restify-errors';
+
+/**
+ * Note that this is NOT PRODUCTION-READY code. It just demonstrates how to
+ * access CosmosDB via the Mongo API.
+ */
+
+// Setup RESTify server
+const server = createServer();
+server.use(plugins.bodyParser());
+
+// Variables for mongo connection
+const mongoUrl =
+    'mongodb://user:password@something.documents.azure.com:10255/?ssl=true&replicaSet=globaldb';
+let ticketCollection: mongodb.Collection = null;
+
+server.post('/api/ticket', async (req, res, next) => {
+  function isValidTicket(ticket: any): boolean {
+    // For the sake of simplicity, no error checking is done in this sample
+    return !!ticket;
+  }
+
+  // Check if body is valid
+  if (!isValidTicket(req.body)) {
+    next(new BadRequestError('Invalid ticket data'));
+  } else {
+    // Insert one row into DB
+    const insertRepose = await ticketCollection.insertOne(req.body);
+
+    // Build REST API response
+    res.send(
+        CREATED, req.body,
+        {Location: `${req.path()}/${insertRepose.insertedId.toHexString()}`});
+  }
+});
+
+server.get('/api/ticket/:id', async (req, res, next) => {
+  // Query DB
+  const result =
+      await ticketCollection.findOne({_id: new mongodb.ObjectID(req.params.id)});
+  if (result) {
+    res.send(result);
+  } else {
+    next(new NotFoundError());
+  }
+});
+
+mongodb.MongoClient.connect(mongoUrl, (err, database) => {
+  ticketCollection = database.collection('tickets');
+
+  server.listen(8080, function() {
+    console.log('API is listening');
+  });
+})
+```
+
+* Start the Web API in the terminal using `./node_modules/.bin/ts-node app.ts`. Alternatively, you can add a script `start` to `package.json` containing `ts-node app.ts`.
+
+* Use any interactive REST client (e.g. [REST Client plugin in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)) to add a new trouble ticket (see also [*request.http*](CosmosDB/request.http)) as follows:
+
+```
+POST http://localhost:8080/api/ticket HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "customer": "Foo Bar",
+    "severity": "high",
+    "description": "Lorem ipsum..."
+}
+```
+
+* Use the REST client to query the created ticket:
+
+```
+GET http://localhost:8080/api/ticket/59a6a1d9dcde05027a9fa874 HTTP/1.1
+Accept: application/json
+```
+
