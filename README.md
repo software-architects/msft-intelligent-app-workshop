@@ -42,6 +42,7 @@ If the examples will be done as hands-on labs, participants have to provide the 
     * ASP.NET Web Development
 * Latest version of *SQL Server Management Studio*
 * Latest version of *Node.js*
+* Latest version of the *.NET Core SDK*
 * Administrative access to an [Azure](https://azure.microsoft.com/) subscription
 * Administrative access to a [Visual Studio Team Services](https://www.visualstudio.com/team-services/) subscription
 * *Hyper-V*
