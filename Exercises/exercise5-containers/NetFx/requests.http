@@ -1,0 +1,2 @@
+GET http://172.21.72.3/api/hello
+Accept: application/json
