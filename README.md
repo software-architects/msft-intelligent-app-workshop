@@ -49,4 +49,12 @@ If the examples will be done as hands-on labs, participants have to provide the 
 * *Windows Container* support
 * *Ubuntu Bash* for Windows
 
+Some Docker images are quite large. To save time, participants should download them prior to the workshop. Here are the commands to download important images:
+
+* For Windows containers:
+  * `docker pull microsoft/aspnet:4.6.2`
+* For Linux containers:
+  * `docker pull microsoft/dotnet:2-sdk`
+  * `docker pull microsoft/aspnetcore:2`
+
 If you do not have access to Visual Studio and/or a Microsoft Azure account, you can activate an Azure trial which includes 200 $ of free credit. This will enable you to run a VM with Visual Studio in it. In that case you just need internet access and a remote desktop client on your laptop. For the labs about build- and test-automation, you need your own Visual Studio Team Services subscription (free edition available).
