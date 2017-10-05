@@ -1,0 +1,127 @@
+{
+    "$connections": {
+        "value": {
+            "office365": {
+                "connectionId": "/subscriptions/26400a43-e689-48df-95dc-0b173a362cff/resourceGroups/intel-app-workshop/providers/Microsoft.Web/connections/office365",
+                "connectionName": "office365",
+                "id": "/subscriptions/26400a43-e689-48df-95dc-0b173a362cff/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+            },
+            "servicebus": {
+                "connectionId": "/subscriptions/26400a43-e689-48df-95dc-0b173a362cff/resourceGroups/intel-app-workshop/providers/Microsoft.Web/connections/servicebus",
+                "connectionName": "servicebus",
+                "id": "/subscriptions/26400a43-e689-48df-95dc-0b173a362cff/providers/Microsoft.Web/locations/westeurope/managedApis/servicebus"
+            }
+        }
+    },
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Condition": {
+                "actions": {
+                    "Send_message": {
+                        "inputs": {
+                            "body": {
+                                "ContentData": "@{base64(concat('{','\n','  \"StockItemId\": ',body('Parse_JSON')?['StockItemId'],', ','\n','  \"StockItemName\": \"',body('Parse_JSON')?['StockItemName'],'\", ','\n','  \"SupplierID\": \"',body('Parse_JSON')?['SupplierID'],'\", ','\n','  \"SupplierName\": \"',body('Parse_JSON')?['SupplierName'],'\", ','\n','  \"Quantity\": ',body('Parse_JSON')?['Quantity'],', ','\n','  \"PricePerItem\": ',body('Parse_JSON')?['PricePerItem'],'\n','}'))}",
+                                "Properties": {
+                                    "SupplierID": "4"
+                                }
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['servicebus']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/@{encodeURIComponent('orders')}/messages",
+                            "queries": {
+                                "systemProperties": "None"
+                            }
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    }
+                },
+                "expression": "@equals(body('Send_approval_email')?['SelectedOption'], 'Approve')",
+                "runAfter": {
+                    "Send_approval_email": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "If"
+            },
+            "Parse_JSON": {
+                "inputs": {
+                    "content": "@triggerBody()",
+                    "schema": {
+                        "properties": {
+                            "PricePerItem": {
+                                "type": "number"
+                            },
+                            "Quantity": {
+                                "type": "number"
+                            },
+                            "StockItemId": {
+                                "type": "number"
+                            },
+                            "StockItemName": {
+                                "type": "string"
+                            },
+                            "SupplierID": {
+                                "type": "number"
+                            },
+                            "SupplierName": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "runAfter": {},
+                "type": "ParseJson"
+            },
+            "Send_approval_email": {
+                "inputs": {
+                    "body": {
+                        "Message": {
+                            "Body": "There is a price change for the ordered item @{body('Parse_JSON')?['StockItemId']} (@{body('Parse_JSON')?['StockItemName']}). Please approve or reject.",
+                            "Importance": "Normal",
+                            "Options": "Approve, Reject",
+                            "Subject": "Approval Request",
+                            "To": "roman.schacherl@softaware.at"
+                        },
+                        "NotificationUrl": "@{listCallbackUrl()}"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['office365']['connectionId']"
+                        }
+                    },
+                    "path": "/approvalmail/$subscriptions"
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnectionWebhook"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "schema": {}
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    }
+}
