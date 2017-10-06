@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBot", "OrderBot\OrderBot.csproj", "{E04AEFFF-D44D-4E97-A0D2-F11A8C2D5424}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E04AEFFF-D44D-4E97-A0D2-F11A8C2D5424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E04AEFFF-D44D-4E97-A0D2-F11A8C2D5424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E04AEFFF-D44D-4E97-A0D2-F11A8C2D5424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E04AEFFF-D44D-4E97-A0D2-F11A8C2D5424}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {172A2E86-3AE8-4511-8D6C-CBF9429A8125}
+	EndGlobalSection
+EndGlobal

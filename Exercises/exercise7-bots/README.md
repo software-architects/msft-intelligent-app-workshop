@@ -16,14 +16,6 @@ will be provided. A step-by-step description of the following demos will be crea
 * Build a simple bot with Microsoft Bot Framework
 Note that this block concludes day 2 of the workshop. Therefore, it contains a bit less material and content in order to have enough time for closing Q&A, discussions, etc.
 
-## Sample
-### Scenario
-* Create an order bot
-* Ask the bot "Order an action jacket" -> more than one result
-* Ask for the size
-* Send a card for the chosen product
-* Order
-
 ## Create a Hello, world-Bot
 
 ### Installation
@@ -45,7 +37,7 @@ Note that this block concludes day 2 of the workshop. Therefore, it contains a b
 ### Hello, Bot
 * The project template already provides a small bot implementation, take a look at *Controllers/MessagesController.cs*
 
-```cs
+```csharp
 public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
 {
     if (activity.Type == ActivityTypes.Message)
@@ -101,7 +93,11 @@ public class RootDialog : IDialog<object>
 ## Creating an Order bot
 * The most difficult part of creating a bot is to recognize, what the user was asking for. We won't concentrate on that part during the lab - but take a look at [Language Understanding Intelligent Service (LUIS)](https://luis.ai) for a more sophisticated version.
 
+> You can find a bot version with a .NET Standard library and Entity Framework Core 2 in this Repository ([OrderBotWithEF](OrderBotWithEF)). This step-by-step guide will more concentrate more on the bot development though.
 
+### Create a data manager
+* Create a *Data* folder in your project
+* Copy the [DataManager.cs](OrderBot/Data/DataManager.cs) with some test data and a model class ```Stockitem```.
 
 ### Create a StockItemSelectionDialog
 * A [dialog](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs) can be used to model a conversation. Each dialog is responsible for a specific answer - it can be a number, a string or a complex type. In our case we want to create a dialog that asks the user to search for a stock item.
@@ -110,6 +106,122 @@ public class RootDialog : IDialog<object>
 
 ```cs
 [Serializable]
-public class StockItemSelectionDialog : IDialog<Stockitem>
+public class StockItemDialog : IDialog<Stockitem>
 ```
 
+* Implement the *StartAsync* method. You can use the *PromptString* class to ask the user for an input. The second parameter is an alternative question that would be asked if the first input leads to an error. Whenever the user has answered the question, the *OnStockitemNameReceivedAsync* callback gets called.
+
+```cs
+public async Task StartAsync(IDialogContext context)
+{
+    var dialog = new PromptDialog.PromptString("What do you want to order?", "Please tell me the name of the product.", 3);
+
+    context.Call(dialog, OnStockitemNameReceivedAsync);
+
+    return Task.CompletedTask;
+}
+```
+
+* Implement the *OnStockitemNameReceivedAsync* method
+* The following parts should be discussed in more detail:
+  * We send a typing message to the client, so that the user knows, that we are working on an answer.
+  * Depending on the result of our product query we are asking different questions. If our search retrieves more than one result we provide a list of options to the user.
+  * As soon as exactly one stock item is selected, we show a hero card with an image.
+
+```cs
+private async Task OnStockitemNameReceivedAsync(IDialogContext context, IAwaitable<string> result)
+{
+    var stockitemName = await result;
+
+    // send typing message
+    var typingMessage = context.MakeMessage();
+    typingMessage.Type = ActivityTypes.Typing;
+
+    await context.PostAsync(typingMessage);
+
+    await Task.Delay(3000);
+
+    // get results
+    var dataManager = new DataManager();
+    var stockItems = await dataManager.GetStockitemsAsync(stockitemName);
+
+    if (stockItems.Count == 0)
+    {
+        var dialog = new PromptDialog.PromptString("Sorry, we didn't find this article. What is its name?", "Sorry. What product did you mean?", 3);
+
+        context.Call(dialog, OnStockitemNameReceivedAsync);
+    }
+    else if (stockItems.Count == 1)
+    {
+        await SendOrderConfirmationAsync(context, stockItems.First());
+    }
+    else
+    {
+        var dialog = new PromptDialog.PromptChoice<Stockitem>(stockItems, "Please select your product.", "Please select.", 3);
+
+        context.Call(dialog, OnStockItemReceivedAsync);
+    }
+}
+
+private async Task OnStockItemReceivedAsync(IDialogContext context, IAwaitable<Stockitem> result)
+{
+    var stockitem = await result;
+
+    await SendOrderConfirmationAsync(context, stockitem);
+}
+
+private async Task SendOrderConfirmationAsync(IDialogContext context, Stockitem stockitem)
+{
+    var card = new HeroCard()
+    {
+        Title = stockitem.StockItemName,
+        Text = $"Buy now for {stockitem.RecommendedRetailPrice} $!",
+        Images = new List<CardImage>()
+        {
+            new CardImage()
+            {
+                Url = stockitem.ImageUrl,
+                Tap = new CardAction(ActionTypes.OpenUrl, "Open", null, "https://docs.microsoft.com/en-us/sql/sample/world-wide-importers")
+            }
+        }
+    };
+
+    var responseMessage = context.MakeMessage();
+    responseMessage.Attachments.Add(card.ToAttachment());
+
+    await context.PostAsync(responseMessage);
+
+    context.Done(stockitem);
+}
+```
+
+## Modify the RootDialog
+* Finally change the *MessageReceivedAsync* method of the *RootDialog*: if the given sentences contains the word *order*, we start the *StockItemDialog* in our conversation.
+
+```cs
+private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
+{
+    var activity = await result as Activity;
+            
+    if (activity.Text.Contains("order"))
+    {
+        context.Call(new StockItemDialog(), OnStockItemReceivedAsync);
+    }
+}
+
+private async Task OnStockItemReceivedAsync(IDialogContext context, IAwaitable<Stockitem> result)
+{
+    await context.PostAsync("Thank you!");
+
+    context.Wait(MessageReceivedAsync);
+}
+```
+
+### Execute the bot
+* Start your web application
+* Copy the deployment url (e.g. http://localhost:3979/)
+* Start the **Bot Framework Channel Emulator**
+* Set the endpoint URL to the address with appended */api/messages* 
+* Start chatting
+
+![Chat](images/chat.png)
