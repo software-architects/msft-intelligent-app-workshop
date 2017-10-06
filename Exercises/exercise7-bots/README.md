@@ -100,3 +100,16 @@ public class RootDialog : IDialog<object>
 
 ## Creating an Order bot
 * The most difficult part of creating a bot is to recognize, what the user was asking for. We won't concentrate on that part during the lab - but take a look at [Language Understanding Intelligent Service (LUIS)](https://luis.ai) for a more sophisticated version.
+
+
+
+### Create a StockItemSelectionDialog
+* A [dialog](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs) can be used to model a conversation. Each dialog is responsible for a specific answer - it can be a number, a string or a complex type. In our case we want to create a dialog that asks the user to search for a stock item.
+* Create a new class *Dialogs/StockItemSelectionDialog*
+* Add a ```Serializable``` attribute and implement the ```IDialog<Stockitem>``` interface
+
+```cs
+[Serializable]
+public class StockItemSelectionDialog : IDialog<Stockitem>
+```
+
