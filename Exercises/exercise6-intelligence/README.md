@@ -19,6 +19,17 @@ will be provided. A step-by-step description of the following demos will be crea
 Additionally, a collection of links to tutorials about Machine Learning in Azure will be added. Presenters who want to focus specifically on ML can make use of these resources.
 
 
+
+## Requirements
+* We will create a small Java application, therefore we need to fulfill some requirements.
+* Install the [Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Install [Visual Studio Code](https://code.visualstudio.com) as our IDE.
+* Install two Visual Studio Code extensions to get ready:
+  * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
+  * [Java Debug Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug)
+
+
+
 ## Sample
 ### Scenario
 * Analyze Support cases
@@ -30,10 +41,9 @@ Additionally, a collection of links to tutorials about Machine Learning in Azure
   * Language
   * Product group / Support plan
 
-### Steps
-* Create a Java application (Web job) 
-* Call Cognitive Service
-* https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-java-how-to-use-jms-api-amqp
 
-### Responsibility
-* Roman
+
+```
+javac -cp lib/* -d bin src/App.java
+java -cp lib/*;bin App
+```

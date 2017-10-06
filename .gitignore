@@ -293,3 +293,5 @@ __pycache__/
 # Publish
 PublishOutput
 
+# Maven
+apache-maven-3.5.0
