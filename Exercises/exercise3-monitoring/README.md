@@ -1,4 +1,4 @@
-# Exercise 3: Monitoring
+# Monitoring
 
 ## Content
 The forth block concentrates on the importance of professional monitoring and telemetry:

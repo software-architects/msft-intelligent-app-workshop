@@ -1,4 +1,4 @@
-# Exercise 2: Services
+# Services
 
 ## Content
 Microservices, API-first approach, Serverless Computing and related technologies are the focus of this part:
