@@ -1,26 +1,7 @@
 # Monitoring
 
-## Content
-The forth block concentrates on the importance of professional monitoring and telemetry:
-* How does monitoring and logging differ in complex cloud-based apps compared to legacy monoliths?
-* How telemetry influences user satisfaction and conversion/churn rates
-* Telemetry and Microservices
-* Microsoft’s related offering in Azure: Application Insight
-
-## Material
-This block contains presentations and demos/hands-on exercises. Slides about
-* logging,
-* telemetry,
-* cloud pricing models, 
-* practical problems and their solution with AI, and
-* Application Insights in general
-will be provided. 
-
-A step-by-step description of the following demos will be created:
-* Visual Studio: Use AI data during development
-* AI portal: View telemetry and logs of previously deployed services
-* AI Analytics: Find answers to specific questions
-* AI Maps
+## Introduction
+When we use a microservice architecture it's important to have a reliable monitoring solution: you want to see the health status of all the components and you need alarms whenever something seems to go wrong.
 
 ## Using Application Insights
 In this lab we will add Application Insights (AI) to a Web application and see how it helps during development.
