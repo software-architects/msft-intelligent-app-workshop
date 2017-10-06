@@ -97,3 +97,6 @@ public class RootDialog : IDialog<object>
 * Start chatting
 
 ![Bot Framework Channel Emulator](images/botframeworkchannelemulator.png)
+
+## Creating an Order bot
+* The most difficult part of creating a bot is to recognize, what the user was asking for. We won't concentrate on that part during the lab - but take a look at [Language Understanding Intelligent Service (LUIS)](https://luis.ai) for a more sophisticated version.
