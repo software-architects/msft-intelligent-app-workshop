@@ -70,7 +70,7 @@ namespace OrderBot.Dialogs
                 {
                     new CardImage()
                     {
-                        Url = "https://sec.ch9.ms/ch9/56e2/7d81df89-2160-453d-b300-255ef17756e2/Behindscenes_960.jpg",
+                        Url = "https://raw.githubusercontent.com/software-architects/msft-intelligent-app-workshop/master/Exercises/exercise7-bots/images/chocolate.jpg",
                         Tap = new CardAction(ActionTypes.OpenUrl, "Open", null, "https://docs.microsoft.com/en-us/sql/sample/world-wide-importers")
                     }
                 }
