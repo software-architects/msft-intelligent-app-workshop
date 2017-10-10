@@ -11,7 +11,6 @@ We will target those drawbacks by
 * using queues for order messages
 * using an Azure Function App for notifying a supplier about a new order
 * using an Azure Logic App for implementing an approval workflow for price changes
-* create an API proxy to get a common interface for Function and Logic App services
 
 ## Using queues for order messages
 
