@@ -6,11 +6,11 @@ This repository and its content has been created for the training "Intelligent A
 
 ## Slides and Exercises
 
-You can [download a slide deck with related content from Onedrive](https://#). **TODO**
+You can find **slide decks** with related content in the [slides](slides) folder.
 
-**You find the exercises of the training in the [Exercises](Exercises) folder.**
+You find the exercises of the training in the [Exercises](Exercises) folder.
 
-The training outline is available in [Excel](MobileDevOps-PartnerTraining-Outline.xlsx). **TODO**
+The training outline is available in [Excel](Intelligent-App-Workshop-Partner-Training-Outline.xlsx).
 
 ### Introduction
 
