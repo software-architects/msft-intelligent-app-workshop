@@ -6,11 +6,23 @@ This repository and its content has been created for the training "Intelligent A
 
 ## Slides and Exercises
 
-You can find **slide decks** with related content in the [slides](slides) folder.
+You can find **slide decks** with related content in [OneDrive](https://1drv.ms/f/s!AtcNFPI3rIPnpUpPo_SbP28uKwsY).
 
 You find the exercises of the training in the [Exercises](Exercises) folder.
 
 The training outline is available in [Excel](Intelligent-App-Workshop-Partner-Training-Outline.xlsx).
+
+## What You Will Learn
+
+In this workshop, you will learn how to...
+
+* automate resource creation with *Azure Resource Manager* (ARM) and refine your CI/CD processes with our Open Source friendly *Visual Studio Team Services (VSTS)*,  
+* leverage the power of Microservices and Serverless computing (*Azure Functions*, *Logic Apps*),  
+* increase user satisfaction with a powerful monitoring and telemetry tool like *Application Insights*,
+* create reliable and performant Apps with data stored in *Azure SQL Database* and *Cosmos DB*,  
+* containerize your .NET or .NET core app using *Docker* and *Azure App Service*,  
+* enrich your Java or .NET apps with various *Cognitive Services*,  
+* adapt new UI paradigms and implement a solution based on Microsoft’s *Bot Framework*.  
 
 ### Training Structure
 
@@ -29,4 +41,4 @@ The exercises do not form a single, continuous sample. Instead, the concepts use
 
 Note that most of the hands-on labs can be done on *macOS* and *Linux*, too. However, the trainings do not have in-depth knowledge about macOS and can therefore not provide technical assistance during the training.
 
-Detailed prerequisites can be found in the [introduction slide deck](slides/01.00-introduction.pptx).
+Detailed prerequisites can be found in the [introduction slide deck](https://1drv.ms/p/s!AtcNFPI3rIPnpU-V-7aa7ECsX3kw).
