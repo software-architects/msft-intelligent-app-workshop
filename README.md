@@ -27,4 +27,6 @@ The exercises do not form a single, continuous sample. Instead, the concepts use
 
 **You will need your own laptop to do the hands-on labs.** `
 
-Detailed prerequisites can be found in the [introduction slide deck](slides/00.00-introduction.pptx).
+Note that most of the hands-on labs can be done on *macOS* and *Linux*, too. However, the trainings do not have in-depth knowledge about macOS and can therefore not provide technical assistance during the training.
+
+Detailed prerequisites can be found in the [introduction slide deck](slides/01.00-introduction.pptx).
