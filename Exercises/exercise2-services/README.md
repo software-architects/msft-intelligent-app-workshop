@@ -139,7 +139,7 @@ private static void CreateSubscriptionFilter(CreateSubscriptionOptions options)
 
 ![Create an Azure Function App](images/create-functionapp-template.png)
 
-* Implement the supplier specific interface, maybe by sending a test request to (requestb.in)[https://requestb.in]
+* Implement the supplier specific interface, maybe by sending a test request to [requestb.in](https://requestb.in)
 
 ```cs
 #r "Newtonsoft.Json"
