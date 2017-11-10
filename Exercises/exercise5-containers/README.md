@@ -120,9 +120,27 @@ ENTRYPOINT ["./NetCore"]
 
 ## Publish to Docker Hub
 
-* Create an account on the [Docker Hub](https://hub.docker.com).
+> Note to presenters: Talk about the differences of the public [Docker Hub](https://hub.docker.com) vs. private container registries built with the [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/) service.
 
-* Publish the previously created Linux image to the Docker Hub.
+* Create an account on the [Docker Hub](https://hub.docker.com). Let's assume your account is called `johndoe`.
+
+* When building the .NET Core image as shown above, [tag](https://docs.docker.com/engine/reference/commandline/tag/) it with your user account: `docker build -t johndoe/netcore .`
+
+* Login to Docker Hub using the Docker CLI: `docker login --username johndoe --password YourPassword`
+
+* Publish your .NET Core image to Docker Hub: `docker push johndoe/netcore`
+
+* Open [Docker Hub](https://hub.docker.com), login with your account, and check whether publishing has been successful.
+
+## Run Web App Container in [Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/containers/)
+
+* Open [Azure Portal](https://portal.azure.com)
+
+* Create a new *Web App for Containers*:
+
+![Create Web App for Containers](images/create-azure-app-service-container.png)
+
+* Once the deployment has finished, show that the .NET Core application is now running in Azure.
 
 ## Run Container in *Azure Container Instance*
 
