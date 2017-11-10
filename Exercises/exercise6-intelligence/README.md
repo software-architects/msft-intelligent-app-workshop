@@ -208,7 +208,7 @@ javac -cp lib/* -d bin src/*.java
 * Run your application
 
 ```
-java -cp lib/*;bin App
+java -cp "lib/*;bin" App
 ```
 
 * The output should look like that: 
