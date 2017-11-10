@@ -202,7 +202,7 @@ public class App {
 * Compile your application with the following command:
 
 ```
-javac -cp lib/* -d bin src/App.java
+javac -cp lib/* -d bin src/*.java
 ```
 
 * Run your application
