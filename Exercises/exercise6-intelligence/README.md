@@ -1,8 +1,14 @@
 # Lab 1: Consuming Cognitive Services from Java
 
 ## Introduction
-WWI gets a lot of support tickets every day. Until now, they are handling them just one by one - the first ticket that comes in gets answered first. Sometimes, customers are really upset and the ticket should be solved quickly - but the answer of the support engineer takes quite long.
-In the future, WWI tries to analyze all support tickets in terms of its sentiment: very emotional tickets should be handled first.
+WWI gets a lot of support tickets every day. Currently, they are fixed just one by one - the first ticket that comes in gets answered first. Sometimes, customers are really upset because of the long response times, even on high priority tickets.
+
+The "WWI Innovation team" thinks of new ways of prioritizing tickets, maybe using machine learning. When talking to the developers they hear that there is currently no knowledge about machine learning or artificial intelligence internally available.
+
+> Show some of the demos on the [Cognitive Services website](https://azure.microsoft.com/de-de/services/cognitive-services/) and discuss the availabilty of machine learning algorithms to "common" software developers.
+
+## Conclusions
+WWI wants to create a prototype to analyze support tickets in terms of its sentiment: very emotional tickets should be handled first. As the code base is in Java, they want to access the Cognitive Services from there.
 
 ## Requirements
 * We will create a small Java application, therefore we need to fulfill some requirements.
