@@ -1,16 +1,29 @@
 # Services
 
 ## Introduction
-Imagine, [World Wide Importers](https://docs.microsoft.com/en-us/sql/sample/world-wide-importers/overview) has an existing code base to order items from suppliers. In this lab we want to refactor our code because
-* it's full of if statements to implement the business rules
-* it contains supplier specific code mixed with core logic
-* if we or the supplier is offline orders are lost and have to be resent manually
-* it is hard to test
 
-We will target those drawbacks by
-* using queues for order messages
-* using an Azure Function App for notifying a supplier about a new order
-* using an Azure Logic App for implementing an approval workflow for price changes
+An important part of [World Wide Importers' (WWI)](https://docs.microsoft.com/en-us/sql/sample/world-wide-importers/overview) ERP solution deals with ordering products from suppliers. This code base has been extended over time. The development team at WWI has increasingly been struggling with maintaining the ordering component. During an internal meeting, the WWI team thought about the most important weaknesses that have led to the problems they experience:
+
+* The code is an intertwined mix of UI, UI-logic, application flow logic and business rules.
+* The code contains supplier-specific code mixed with core logic that is applicable to all suppliers.
+* In case of downtimes (e.g. system maintenance), orders are sometimes lost and have to be resent manually.
+* There are no automated tests because this would be very difficult given the "spaghetti" nature of the codebase.
+
+> Discuss what WWI should change in terms of implementing their order logic for suppliers.
+
+## Conclusions
+
+* WWI decided to extract the supplier order module as a separate Microservice.
+* *Azure Functions* will be used to implement supplier-specific logic.
+* Instead of hand-coding workflows, WWI decided to use *Azure Logic Apps* for implementing workflows.
+
+## Azure Functions and Azure Logic Apps
+
+In this lab, we are going to change WWI's order logic as follows:
+
+* Use queues for order messages to deal with short downtimes
+* Use an *Azure Function App* for notifying a supplier about a new order
+* Use an *Azure Logic App* for implementing an approval workflow for price changes
 
 ## Using queues for order messages
 
