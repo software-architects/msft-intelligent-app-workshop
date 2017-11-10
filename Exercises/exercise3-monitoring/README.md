@@ -1,10 +1,22 @@
 # Monitoring
 
 ## Introduction
-When we use a microservice architecture it's important to have a reliable monitoring solution: you want to see the health status of all the components and you need alarms whenever something seems to go wrong.
+
+Currently, WWI is running their ERP system on a hand full of VMs in their own computer room. Logging and monitoring currently works like this:
+
+* The server-side components of the ERP system write to *Windows Event Log*.
+* In case of problems, the admin team connect to the corresponding server using RDP and looks into the *Windows Event Log*.
+* Problems in the ERP client full client app are written in a log file on the client's local disk. In case of problems, the user can send the log file to the admin team.
+* Newer parts of the ERP system write to a log table in the ERP database. This table has been growing rapidly and the DB team is starting to get worried about its size negatively influencing the DB performance.
+
+The development team of WWI has decided to go for Microservices in the future. The admin team is worried about how they should monitor all these services in the future given that they cannot control the servers anymore.
+
+> Discuss what WWI should consider concerning logging and telemetry in a Microservices environment.
+
 
 ## Using Application Insights
-In this lab we will add Application Insights (AI) to a Web application and see how it helps during development.
+
+In this lab we will add Application Insights (AI) to a Web application and see how it helps during development, monitoring and root cause analysis.
 
 ### Create a new Web application and configure AI
 * Open *Visual Studio 2017*
