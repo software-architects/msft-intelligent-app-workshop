@@ -1,6 +1,11 @@
 # Bots
 
 ## Introduction
+The customers of WWI can order items through the WWI online portal. It became a complex website over the last years with many features to search, re-order and compare articles. The website is excellent for handling big orders - but sometimes customers only want to buy one article as quick as possible. The website with its check out wizard is too complicated for those scenarios.
+
+> Discuss, when and where bot applications could be an alternative.
+
+## Conclusions
 WWI wants to provide a chat bot for customers to order items within their favorite communication channel, e.g. Skype, Messenger, Slack or Cortana.
 
 ## Create a Hello, world-Bot
