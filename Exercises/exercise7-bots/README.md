@@ -14,8 +14,8 @@ WWI wants to provide a chat bot for customers to order items within their favori
 
 * The [Microsoft Bot Framework](https://dev.botframework.com) is provided as a *NuGet package*
 * There are *project templates* available for Visual Studio:
-  * Download from [Bot Framework SDK and tools](https://docs.microsoft.com/en-us/bot-framework/resources-tools-downloads)
-  * Copy the ZIP files to _%userprofile%\documents\Visual Studio 2017\Templates\ProjectTemplates\Visual C#_
+  * Download from [Bot Framework SDK and tools](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-quickstart)
+  * Copy the ZIP files to the corresponding folders (e.g. _%userprofile%\documents\Visual Studio 2017\Templates\ProjectTemplates\Visual C#_); see notes in previous link
 * Download the *Bot Framework Channel Emulator* and execute the setup
   * [BotFramework-Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
@@ -89,7 +89,7 @@ public class RootDialog : IDialog<object>
 
 ### Create a data manager
 * Create a *Data* folder in your project
-* Copy the [DataManager.cs](OrderBot/Data/DataManager.cs) with some test data and a model class ```Stockitem```.
+* Copy the [DataManager.cs](https://github.com/software-architects/msft-intelligent-app-workshop/blob/master/Exercises/exercise7-bots/OrderBot/OrderBot/Data/DataManager.cs) with some test data and a model class ```Stockitem```.
 
 ### Create a StockItemSelectionDialog
 * A [dialog](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs) can be used to model a conversation. Each dialog is responsible for a specific answer - it can be a number, a string or a complex type. In our case we want to create a dialog that asks the user to search for a stock item.
