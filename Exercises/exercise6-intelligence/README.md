@@ -255,6 +255,9 @@ Cognitive Services are REST based service, so you can use them from nearly any p
 * Get a free [API Key](https://azure.microsoft.com/en-us/try/cognitive-services/?api=emotion-api) for 30,000 transactions per month.
 
 ## Create an UWP application
+
+> Note to presenters: If you have limited time and UWP is not relevant for your audience, you can find an alternate sample (command-line .NET Core app) in the [netcore](netcore) folder.
+
 * Let's create a small app that takes a photo and analyzes the emotions.
 * Create a new UWP application
 

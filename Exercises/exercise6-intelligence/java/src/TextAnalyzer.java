@@ -13,7 +13,7 @@ import org.json.JSONArray;
 
 public class TextAnalyzer {
     // please change this URI, if your subscription is in a different region!
-    private static final String uriBase = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
+    private static final String uriBase = "https://westeurope.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
     
     private String subscriptionKey;
 
