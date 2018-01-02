@@ -254,6 +254,8 @@ Cognitive Services are REST based service, so you can use them from nearly any p
 ## Get a free API key
 * Get a free [API Key](https://azure.microsoft.com/en-us/try/cognitive-services/?api=emotion-api) for 30,000 transactions per month.
 
+> Note to presenters: Demonstrate how you can add a cognitive services account to Azure using the *Azure Portal*.
+
 ## Create an UWP application
 
 > Note to presenters: If you have limited time and UWP is not relevant for your audience, you can find an alternate sample (command-line .NET Core app) in the [netcore](netcore) folder.
