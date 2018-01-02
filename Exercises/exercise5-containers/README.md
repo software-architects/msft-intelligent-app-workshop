@@ -118,6 +118,25 @@ ENTRYPOINT ["./NetCore"]
 
 > Note to presenters: You can use these labs if you have time left to fill. You can also suggest it to people who are very fast and need additional challanges.
 
+## Publish to Azure Container Registry
+
+> Note to presenters: Talk about the differences of the public [Docker Hub](https://hub.docker.com) vs. private container registries built with the [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/) service.
+
+> Note to presenters: Use the instructions in [this tutorial](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-acr) if you want to demo ACR management using *Azure CLI*.
+
+* Create a new [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/):
+
+![Create ACR](images/create-acr.png)
+
+* Note the *access keys* for your registry:
+
+![ACR Keys](images/acr-access-keys.png)
+
+* Tag your docker image: `docker tag aci-tutorial-app <acrLoginServer>/netcore`
+
+* Push your docker image to ACR: `docker push <acrLoginServer>/netcore`
+
+
 ## Publish to Docker Hub
 
 > Note to presenters: Talk about the differences of the public [Docker Hub](https://hub.docker.com) vs. private container registries built with the [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/) service.
