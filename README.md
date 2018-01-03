@@ -4,6 +4,23 @@
 
 This repository and its content has been created for the training "Intelligent App". Its content is described below. The trainings take place all over Western Europe. Note that the content of the repository will not be kept up to date after all the trainings took place.
 
+## Workshop Dates and Registration Links
+
+| Country      | Dates (2018)     | Trainer                     | Registration
+|--------------|------------------|-----------------------------|---
+| Austria      | Jan. 09th + 10th | Rainer Stropek, Marc Müller | [Registration...](https://www.microsoftevents.com/profile/form/index.cfm?PKformID=0x3071997abcd)
+| Belgium      | Jan. 30th + 31st | Rainer Stropek              | [Registration...](https://www.microsoftevents.com/profile/2960961)
+| Denmark      | Feb. 05th + 06th | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/3050546)
+| Finland      | Mar. 27th + 28th | Rainer Stropek              | [Registration...](https://www.microsoftevents.com/profile/form/index.cfm?PKformID=0x2970765abcd)
+| Ireland      | Mar. 26th + 27th | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/3043915)
+| Italy        | Mar. 05th + 06th | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/form/index.cfm?PKformID=0x3148187abcd)
+| Netherlands  | Feb. 06th + 07th | Rainer Stropek              | [Registration...](https://www.microsoftevents.com/profile/3091377)
+| Norway       | Apr. 23rd + 24th | Rainer Stropek              | [Registration...]()
+| Portugal     | Jan. 22nd + 23rd | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/3071256)
+| Spain        | TBD              | Rainer Stropek, Marc Müller | 
+| Sweden       | Feb. 13th + 14th | Rainer Stropek              | [Registration...](https://www.microsoftevents.com/profile/form/index.cfm?PKformID=0x3099034abcd)
+| Switzerland  | Feb. 01st + 02nd | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/2969283)
+
 ## Slides and Exercises
 
 You can find **slide decks** with related content in [OneDrive](https://1drv.ms/f/s!AtcNFPI3rIPnpUpPo_SbP28uKwsY).
