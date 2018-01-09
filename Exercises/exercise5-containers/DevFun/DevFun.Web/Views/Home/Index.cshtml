@@ -1,0 +1,15 @@
+﻿@model DevFun.Common.Entities.DevJoke
+<div class="row" style="margin-bottom:50px">
+    <div class="col-md-12">
+        <h2>DevFun</h2>
+    </div>
+</div>
+
+<div class="row" style="font-size:20pt">
+    <div class="col-md-4">
+        <label>Random Joke:</label>
+    </div>
+    <div class="col-md-8">
+        <span>@Html.Raw(Model?.Text?.Replace("\\r\\n","<br />"))</span>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  devfun.web:
+    image: devfun.web
+    build:
+      context: ./DevFun.Web
+      dockerfile: Dockerfile
+
+  devfun.api:
+    image: devfun.api
+    build:
+      context: ./DevFun.Api
+      dockerfile: Dockerfile
+
+# http://www.localtest.me/
+# http://api.localtest.me/api/jokes
+# http://api.localtest.me/api/jokes/random
+
+#  proxy:
+#    image: proxy
+#    ports: ["80:80","443:443"]
+#    build:
+#      context: ./Proxy
+#      dockerfile: Dockerfile
