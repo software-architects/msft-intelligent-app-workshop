@@ -1,6 +1,6 @@
 ﻿# Check if user is already signed in
-$context = Get-AzureRmContext | Out-Null
-if (!$context.SubscriptionName) {
+$context = Get-AzureRmContext
+if (!$context.Subscription.Name) {
     Login-AzureRmAccount
 }
 
