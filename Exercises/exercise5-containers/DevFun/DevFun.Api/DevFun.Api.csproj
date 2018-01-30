@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="4tecture.DependencyInjection.AspNet" Version="0.1.17068.1-dev" />
+    <PackageReference Include="4tecture.DependencyInjection.AutofacAdapter" Version="0.1.17068.1-dev" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DevFun.Common\DevFun.Common.csproj" />
+    <ProjectReference Include="..\DevFun.DataInitializer\DevFun.DataInitializer.csproj" />
+    <ProjectReference Include="..\DevFun.Logic\DevFun.Logic.csproj" />
+    <ProjectReference Include="..\DevFun.Storage\DevFun.Storage.csproj" />
+  </ItemGroup>
+
+</Project>

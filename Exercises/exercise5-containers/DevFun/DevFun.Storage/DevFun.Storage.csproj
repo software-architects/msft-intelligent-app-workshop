@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="4tecture.DataAccess.EntityFramework" Version="0.1.17068.1-dev" />
+    <PackageReference Include="4tecture.Modularity.Common" Version="0.1.17068.1-dev" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevFun.Common\DevFun.Common.csproj" />
+  </ItemGroup>
+
+</Project>
