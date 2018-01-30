@@ -193,7 +193,7 @@ In this lab, we are going to setup a *CosmosDB* instance (=highly scalable and r
 }
 ```
 
-* Implement the Web API. Here is a sample implementation. Note that you **have to change the MongoDB connection string** to your connection string copied from the Azure portal previously. ** Important Note**: Due to [changes in the MongoDB API version 3](https://github.com/mongodb/node-mongodb-native/blob/HEAD/CHANGES_3.0.0.md), information in the connection has to be URL-encoded. Therefore, you have to replace `=` characters in CosmosDB's password with `%3D`.
+* Implement the Web API. Here is a sample implementation. Note that you **have to change the MongoDB connection string** to your connection string copied from the Azure portal previously. **Important Note**: Due to [changes in the MongoDB API version 3](https://github.com/mongodb/node-mongodb-native/blob/HEAD/CHANGES_3.0.0.md), information in the connection has to be URL-encoded. Therefore, you have to replace `=` characters in CosmosDB's password with `%3D`.
 
 ```
 import {CREATED} from 'http-status-codes';
