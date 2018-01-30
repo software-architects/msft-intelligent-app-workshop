@@ -14,7 +14,7 @@ server.use(plugins.bodyParser());
 
 // Variables for mongo connection
 const mongoUrl =
-    'mongodb://user:password@something.documents.azure.com:10255/?ssl=true&replicaSet=globaldb';
+    'mongodb://user:password%3D%3D@something.documents.azure.com:10255/?ssl=true&replicaSet=globaldb';
 let ticketCollection: mongodb.Collection = null;
 
 server.post('/api/ticket', async (req, res, next) => {
@@ -49,7 +49,8 @@ server.get('/api/ticket/:id', async (req, res, next) => {
 });
 
 mongodb.MongoClient.connect(mongoUrl, (err, database) => {
-  ticketCollection = database.collection('tickets');
+  console.log(err);
+  ticketCollection = database.db('demo').collection('tickets');
 
   server.listen(8080, function() {
     console.log('API is listening');
