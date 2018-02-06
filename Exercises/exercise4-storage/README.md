@@ -247,7 +247,7 @@ server.get('/api/ticket/:id', async (req, res, next) => {
 });
 
 mongodb.MongoClient.connect(mongoUrl, (err, database) => {
-  ticketCollection = database.collection('tickets');
+  ticketCollection = database.db('demo').collection('tickets');
 
   server.listen(8080, function() {
     console.log('API is listening');
