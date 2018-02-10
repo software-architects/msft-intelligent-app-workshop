@@ -311,3 +311,5 @@ private async void Button_Click(object sender, RoutedEventArgs e)
 * Start the app, take a photo and analyze your emotions!
 
 ![Running the UWP app](images/uwpapp.png)
+
+* On first start you may be prompted to activate [Developer Mode](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development)
