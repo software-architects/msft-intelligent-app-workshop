@@ -398,6 +398,8 @@ New-AzureRmResourceGroupDeployment -ResourceGroupName $rg -TemplateFile "$path\e
     -Name $dep -dbAdminUser $dbAdminUser -dbAdminPassword (Get-Credential).Password
 ```
 
+* Be warned that if you don't have a subscription that matches "`*MSDN Subscription*`" this script uses your first azure subscription
+* The credentials prompt during execution is used to get a secure password for your Sql Database with fixed username 'demo' (or whatever the value of $dbAdminUser is)
 * Execute the script and watch how ARM creates your resources.
 * Read more about [Azure PowerShell...](https://docs.microsoft.com/en-us/powershell/azure/overview)
 

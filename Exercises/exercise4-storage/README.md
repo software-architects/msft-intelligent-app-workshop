@@ -255,6 +255,8 @@ mongodb.MongoClient.connect(mongoUrl, (err, database) => {
 })
 ```
 
+* Save the file as `app.ts` in the root of the project folder.
+
 * Start the Web API in the terminal using `./node_modules/.bin/ts-node app.ts`. Alternatively, you can add a script `start` to `package.json` containing `ts-node app.ts`.
 
 * Use any interactive REST client (e.g. [REST Client plugin in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)) to add a new trouble ticket (see also [*request.http*](CosmosDB/request.http)) as follows:
