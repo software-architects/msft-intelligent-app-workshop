@@ -15,7 +15,7 @@ This repository and its content has been created for the training "Intelligent A
 | Ireland      | Feb. 26th + 27th | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/3043915)
 | Italy        | Mar. 05th + 06th | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/form/index.cfm?PKformID=0x3148187abcd)
 | Netherlands  | Feb. 06th + 07th | Rainer Stropek              | [Registration...](https://www.microsoftevents.com/profile/3091377)
-| Norway       | Apr. 23rd + 24th | Rainer Stropek              | 
+| Norway       | Apr. 23rd + 24th | Rainer Stropek              | [Registration...](https://www.microsoftevents.com/profile/3460832)
 | Portugal     | Jan. 22nd + 23rd | Marc Müller                 | [Registration...](https://www.microsoftevents.com/profile/3071256)
 | Spain        | TBD              | Rainer Stropek, Marc Müller | 
 | Sweden       | Feb. 13th + 14th | Rainer Stropek              | [Registration...](https://www.microsoftevents.com/profile/form/index.cfm?PKformID=0x3099034abcd)
