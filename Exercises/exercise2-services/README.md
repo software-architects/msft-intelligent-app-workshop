@@ -139,7 +139,7 @@ private static void CreateSubscriptionFilter(CreateSubscriptionOptions options)
 
 ![Create an Azure Function App](images/create-functionapp-template.png)
 
-* Implement the supplier specific interface, maybe by sending a test request to [requestb.in](https://requestb.in)
+* Implement the supplier specific interface, maybe by sending a test request to [hookbin.com](https://hookbin.com)
 
 ```cs
 #r "Newtonsoft.Json"
@@ -158,7 +158,7 @@ public static async Task Run(string mySbMsg, TraceWriter log)
 
     using (var client = new HttpClient())
     {
-        await client.PostAsync("https://requestb.in/1b04y8z1", new StringContent(supplierMessage));
+        await client.PostAsync("https://hookb.in/E5Vy783w", new StringContent(supplierMessage));
     }
 }
 
@@ -199,7 +199,7 @@ L:\>OrderSimulator send -s 4 -c "Endpoint=sb://intel-app-workshop-demo.servicebu
 Order successfully sent!
 ```
 
-* After a few seconds, your [requestb.in](https://requestb.in) should show the incoming request: your supplier is notified about the new order message.
+* After a few seconds, your [hookbin.com](https://hookbin.com) should show the incoming request: your supplier is notified about the new order message.
 
 ## Create a Logic App to implement a price change workflow
 * Imagine, that the supplier gets your order - but the price of the article has changed and he needs an updated order. We want to provide a service endpoint for this scenario so that the supplier can send an approval request. *Azure Logic Apps* are a good way of creating flexible workflows by using existing building blocks.
