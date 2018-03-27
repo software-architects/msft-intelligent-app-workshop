@@ -1,4 +1,4 @@
-﻿using Microsoft.ProjectOxford.Emotion;
+﻿using Microsoft.ProjectOxford.Face;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,12 +35,12 @@ namespace EmotionRecognition
             var photo = await camera.CaptureFileAsync(CameraCaptureUIMode.Photo);
             var stream = await photo.OpenAsync(Windows.Storage.FileAccessMode.Read);
 
-            var emotionClient = new EmotionServiceClient("74dde28011f64a94bb0a1a0ecc8b628a");
-            var emotions = await emotionClient.RecognizeAsync(stream.AsStream());
+            var faceClient = new FaceServiceClient("<YourApiKey>", "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
+            var faceResults = await faceClient.DetectAsync(stream.AsStream(), returnFaceAttributes: new FaceAttributeType[] { FaceAttributeType.Emotion });
 
-            var result = emotions.FirstOrDefault();
+            var result = faceResults.FirstOrDefault();
 
-            if (result != null && result.Scores.Happiness > 0.7)
+            if (result != null && result.FaceAttributes.Emotion.Happiness > 0.7)
             {
                 tbSmiley.Text = ":-)";
             }

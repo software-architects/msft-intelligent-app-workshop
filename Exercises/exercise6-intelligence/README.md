@@ -252,7 +252,7 @@ Sentiment analysis: 0.00822475552558899
 Cognitive Services are REST based service, so you can use them from nearly any programming language. In .NET ready-to-use NuGet packages are available for the most APIs.
 
 ## Get a free API key
-* Get a free [API Key](https://azure.microsoft.com/en-us/try/cognitive-services/?api=emotion-api) for 30,000 transactions per month.
+* Get a free [API Key](https://azure.microsoft.com/en-us/try/cognitive-services/?api=face-api) for 30,000 transactions per month.
 
 > Note to presenters: Demonstrate how you can add a cognitive services account to Azure using the *Azure Portal*.
 
@@ -265,7 +265,7 @@ Cognitive Services are REST based service, so you can use them from nearly any p
 
 ![Create an UWP application](images/create-uwp.png)
 
-* Add the NuGet package *Microsoft.ProjectOxford.Emotion* ("Project Oxford" was the code name for Cognitive Services)
+* Add the NuGet package *Microsoft.ProjectOxford.Face* ("Project Oxford" was the code name for Cognitive Services)
 
 ![NuGet Microsoft.ProjectOxford.Emotion](images/nuget-emotionapi.png)
 
@@ -291,13 +291,12 @@ private async void Button_Click(object sender, RoutedEventArgs e)
     var photo = await camera.CaptureFileAsync(CameraCaptureUIMode.Photo);
     var stream = await photo.OpenAsync(Windows.Storage.FileAccessMode.Read);
 
-    // specify your subscription key!
-    var emotionClient = new EmotionServiceClient("74dde28011f64a94bb0a1a0ecc8b628a");
-    var emotions = await emotionClient.RecognizeAsync(stream.AsStream());
+    var faceClient = new FaceServiceClient("<YourApiKey>", "https://westeurope.api.cognitive.microsoft.com/face/v1.0");
+    var faceResults = await faceClient.DetectAsync(stream.AsStream(), returnFaceAttributes: new FaceAttributeType[] { FaceAttributeType.Emotion });
 
-    var result = emotions.FirstOrDefault();
+    var result = faceResults.FirstOrDefault();
 
-    if (result != null && result.Scores.Happiness > 0.7)
+    if (result != null && result.FaceAttributes.Emotion.Happiness > 0.7)
     {
         tbSmiley.Text = ":-)";
     }
